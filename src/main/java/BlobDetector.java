@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class OneBlobDetector {
+public class BlobDetector {
 
     private class Cell {
         int x, y;

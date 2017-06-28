@@ -30,7 +30,7 @@ public class TestOneBlob {
         for(Map.Entry<String, Execution> entry : expectations.entrySet()) {
             System.out.println(entry.getKey());
             boolean[][] cells = readCellsFromFile(entry.getKey());
-            Execution execution = new OneBlobDetector().find(cells);
+            Execution execution = new BlobDetector().find(cells);
             printExecution(execution);
             assertExecution(entry.getValue(), execution);
             System.out.println();

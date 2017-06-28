@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FindOneBlobBoundaries {
+public class FindBlobBoundaries {
 
     public static void main(String args[]) {
         if (args.length != 1) {
@@ -18,7 +18,7 @@ public class FindOneBlobBoundaries {
             Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(file)));
 
             boolean[][] cells = readCells(scanner);
-            Execution execution = new OneBlobDetector().find(cells);
+            Execution execution = new BlobDetector().find(cells);
             printExecution(execution);
 
         } catch (IOException e) {
@@ -52,6 +52,6 @@ public class FindOneBlobBoundaries {
     }
 
     private static void printUsage() {
-        System.out.print(FindOneBlobBoundaries.class.getSimpleName() + " <file name>");
+        System.out.print(FindBlobBoundaries.class.getSimpleName() + " <file name>");
     }
 }
