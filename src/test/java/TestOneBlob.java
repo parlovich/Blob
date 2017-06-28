@@ -13,16 +13,26 @@ import static org.junit.Assert.assertEquals;
 public class TestOneBlob {
 
     private Map<String, Execution> expectations = new HashMap<String, Execution>() {{
-        put("10.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(2, 1, 6, 7)}));
+        put("5_no_blob.txt", new Execution(44, new BlobBoundary[0]));
+
+        put("10_blob.txt", new Execution(57, new BlobBoundary[]{new BlobBoundary(2, 1, 6, 7)}));
+
+
+        put("5_left_top.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(0, 0, 0, 0)}));
+        put("5_right_top.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(4, 0, 4, 0)}));
+        put("5_left_bottom.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(0, 4, 0, 4)}));
+        put("5_right_bottom.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(4, 4, 4, 4)}));
     }};
 
     @Test
     public void test() throws Exception {
         for(Map.Entry<String, Execution> entry : expectations.entrySet()) {
+            System.out.println(entry.getKey());
             boolean[][] cells = readCellsFromFile(entry.getKey());
             Execution execution = new OneBlob().find(cells);
             printExecution(execution);
             assertExecution(entry.getValue(), execution);
+            System.out.println();
         }
     }
 
