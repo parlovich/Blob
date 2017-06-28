@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class TestOneBlob {
 
     private Map<String, Execution> expectations = new HashMap<String, Execution>() {{
-        put("10.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(2, 1, 7, 6)}));
+        put("10.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(2, 1, 6, 7)}));
     }};
 
     @Test
