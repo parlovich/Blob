@@ -13,15 +13,16 @@ import static org.junit.Assert.assertEquals;
 public class TestOneBlob {
 
     private Map<String, Execution> expectations = new HashMap<String, Execution>() {{
-        put("5_no_blob.txt", new Execution(44, new BlobBoundary[0]));
+        put("5_no_blob.txt", new Execution(0, new BlobBoundary[0]));
+        put("5_full_blob.txt", new Execution(0, new BlobBoundary[]{new BlobBoundary(0, 0, 4, 4)}));
 
-        put("10_blob.txt", new Execution(57, new BlobBoundary[]{new BlobBoundary(2, 1, 6, 7)}));
+        put("5_left_top.txt", new Execution(0, new BlobBoundary[]{new BlobBoundary(0, 0, 0, 0)}));
+        put("5_right_top.txt", new Execution(0, new BlobBoundary[]{new BlobBoundary(4, 0, 4, 0)}));
+        put("5_left_bottom.txt", new Execution(0, new BlobBoundary[]{new BlobBoundary(0, 4, 0, 4)}));
+        put("5_right_bottom.txt", new Execution(0, new BlobBoundary[]{new BlobBoundary(4, 4, 4, 4)}));
 
-
-        put("5_left_top.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(0, 0, 0, 0)}));
-        put("5_right_top.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(4, 0, 4, 0)}));
-        put("5_left_bottom.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(0, 4, 0, 4)}));
-        put("5_right_bottom.txt", new Execution(44, new BlobBoundary[]{new BlobBoundary(4, 4, 4, 4)}));
+        put("10_blob.txt", new Execution(0, new BlobBoundary[]{new BlobBoundary(2, 1, 6, 7)}));
+        put("20_blob.txt", new Execution(0, new BlobBoundary[]{new BlobBoundary(6, 0, 19, 5)}));
     }};
 
     @Test
@@ -29,7 +30,7 @@ public class TestOneBlob {
         for(Map.Entry<String, Execution> entry : expectations.entrySet()) {
             System.out.println(entry.getKey());
             boolean[][] cells = readCellsFromFile(entry.getKey());
-            Execution execution = new OneBlob().find(cells);
+            Execution execution = new OneBlobDetector().find(cells);
             printExecution(execution);
             assertExecution(entry.getValue(), execution);
             System.out.println();
@@ -39,10 +40,10 @@ public class TestOneBlob {
     private void assertExecution(Execution o1, Execution o2) {
         assertEquals(o1.getBlobs().length, o2.getBlobs().length);
         for (int i = 0; i < o1.getBlobs().length; i++)
-            assertBlob(o1.getBlobs()[i], o2.getBlobs()[i]);
+            assertBlobBoundary(o1.getBlobs()[i], o2.getBlobs()[i]);
     }
 
-    private void assertBlob(BlobBoundary o1, BlobBoundary o2) {
+    private void assertBlobBoundary(BlobBoundary o1, BlobBoundary o2) {
         assertEquals(o1.getLeft(), o2.getLeft());
         assertEquals(o1.getTop(), o2.getTop());
         assertEquals(o1.getRight(), o2.getRight());

@@ -4,14 +4,21 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FindOneBlob {
+public class FindOneBlobBoundaries {
+
     public static void main(String args[]) {
+        if (args.length != 1) {
+            System.out.println("Wrong arguments");
+            printUsage();
+            return;
+        }
+
         try {
             File file = new File(args[0]);
             Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(file)));
 
             boolean[][] cells = readCells(scanner);
-            Execution execution = new OneBlob().find(cells);
+            Execution execution = new OneBlobDetector().find(cells);
             printExecution(execution);
 
         } catch (IOException e) {
@@ -42,5 +49,9 @@ public class FindOneBlob {
             System.out.println("Bottom: " + boundary.getBottom());
             System.out.println("Right: " + boundary.getRight());
         }
+    }
+
+    private static void printUsage() {
+        System.out.print(FindOneBlobBoundaries.class.getSimpleName() + " <file name>");
     }
 }

@@ -1,16 +1,14 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class OneBlob {
+public class OneBlobDetector {
 
     private class Cell {
         int x, y;
-        int comeFrom = 0;  // 0 - left; 1 - top; 2 - right; 3 - bottom
 
-        public Cell(int x, int y, int comeFrom) {
+        public Cell(int x, int y) {
             this.x = x;
             this.y = y;
-            this.comeFrom = comeFrom;
         }
     }
 
@@ -34,7 +32,7 @@ public class OneBlob {
                 reads++;
                 visited[i][j] = true;
                 if (cells[i][j]) {
-                    q.add(new Cell(i, j, 0));
+                    q.add(new Cell(i, j));
                     top = bottom = i;
                     left = right = j;
                     break;
@@ -49,41 +47,40 @@ public class OneBlob {
         while (!q.isEmpty()) {
             Cell cell = q.remove();
 
-            top = Math.min(top, cell.x);
-            left = Math.min(left, cell.y);
-            bottom = Math.max(bottom, cell.x);
-            right = Math.max(right, cell.y);
-
             // Top
-            if (cell.comeFrom != 1 && cell.x != 0 && !visited[cell.x - 1][cell.y]) {
+            if (cell.x != 0 && !visited[cell.x - 1][cell.y]) {
                 reads++;
                 visited[cell.x - 1][cell.y] = true;
                 if (cells[cell.x - 1][cell.y]) {
-                    q.add(new Cell(cell.x - 1, cell.y, 3));
+                    q.add(new Cell(cell.x - 1, cell.y));
+                    top = Math.min(top, cell.x - 1);
                 }
             }
             // Left
-            if (cell.comeFrom != 0 && cell.y != 0 && !visited[cell.x][cell.y - 1]) {
+            if (cell.y != 0 && !visited[cell.x][cell.y - 1]) {
                 reads++;
                 visited[cell.x][cell.y - 1] = true;
                 if (cells[cell.x][cell.y - 1]) {
-                    q.add(new Cell(cell.x, cell.y - 1, 2));
+                    q.add(new Cell(cell.x, cell.y - 1));
+                    left = Math.min(left, cell.y - 1);
                 }
             }
             // Bottom
-            if (cell.comeFrom != 3 && cell.x < n - 1 && !visited[cell.x + 1][cell.y]) {
+            if (cell.x < n - 1 && !visited[cell.x + 1][cell.y]) {
                 reads++;
                 visited[cell.x + 1][cell.y] = true;
                 if (cells[cell.x + 1][cell.y]) {
-                    q.add(new Cell(cell.x + 1, cell.y, 1));
+                    q.add(new Cell(cell.x + 1, cell.y));
+                    bottom = Math.max(bottom, cell.x + 1);
                 }
             }
             // Right
-            if (cell.comeFrom != 2 && cell.y < m - 1 && !visited[cell.x][cell.y + 1]) {
+            if (cell.y < m - 1 && !visited[cell.x][cell.y + 1]) {
                 reads++;
                 visited[cell.x][cell.y + 1] = true;
                 if (cells[cell.x][cell.y + 1]) {
-                    q.add(new Cell(cell.x, cell.y + 1, 0));
+                    q.add(new Cell(cell.x, cell.y + 1));
+                    right = Math.max(right, cell.y + 1);
                 }
             }
         }
